@@ -84,24 +84,20 @@ export default async function handler(req, res) {
       { expiresIn: "7d" }
     );
       return res.send(`
-      <html>
-        <body style="background:#0f1720;color:white;text-align:center;font-family:sans-serif;padding-top:50px">
-          <h3>Logging you in...</h3>
-      
-          <script>
-            window.location.href = "steamclouds://auth?token=${encodeURIComponent(jwtToken)}";
-            setTimeout(() => {
-              window.close();
-            }, 1500);
-          </script>
-      
-          <p>If nothing happens, click below:</p>
-          <a href="steamclouds://auth?token=${jwtToken}">
-            Open App
-          </a>
-        </body>
-      </html>
-      `);
+<html>
+  <body style="background:#0f1720;color:white;text-align:center;font-family:sans-serif;padding-top:50px">
+    <h3>Logging you in...</h3>
+
+    <script>
+      window.location.href = "steamclouds://auth?token=${jwtToken}";
+      setTimeout(() => window.close(), 1500);
+    </script>
+
+    <p>If nothing happens:</p>
+    <a href="steamclouds://auth?token=${jwtToken}">Open App</a>
+  </body>
+</html>
+`);
 
   } catch (error) {
     console.error("OAuth Error:", error.response?.data || error.message);
