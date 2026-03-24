@@ -4,42 +4,48 @@ import jwt from "jsonwebtoken";
 export default async function handler(req, res) {
   const code = req.query.code;
 
+  // ❌ No code
   if (!code) {
-    return res.send("No code provided");
+    return res.status(400).send(`
+      <h2>❌ Error</h2>
+      <p>No authorization code provided.</p>
+    `);
   }
 
   try {
-    // tukar code → access token
-    const tokenRes = await axios.post(
+    // 🔁 Exchange code → access token
+    const tokenResponse = await axios.post(
       "https://discord.com/api/oauth2/token",
       new URLSearchParams({
         client_id: process.env.DISCORD_CLIENT_ID,
         client_secret: process.env.DISCORD_CLIENT_SECRET,
         grant_type: "authorization_code",
-        code,
+        code: code,
         redirect_uri: process.env.DISCORD_REDIRECT_URI,
       }),
       {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      }
-    );
-
-    const access_token = tokenRes.data.access_token;
-
-    // ambil user info
-    const userRes = await axios.get(
-      "https://discord.com/api/users/@me",
-      {
         headers: {
-          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
 
-    const user = userRes.data;
+    const accessToken = tokenResponse.data.access_token;
 
-    // 🎟️ generate JWT
-    const token = jwt.sign(
+    // 👤 Fetch user info
+    const userResponse = await axios.get(
+      "https://discord.com/api/users/@me",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const user = userResponse.data;
+
+    // 🎟️ Generate JWT
+    const jwtToken = jwt.sign(
       {
         id: user.id,
         username: user.username,
@@ -48,14 +54,28 @@ export default async function handler(req, res) {
       { expiresIn: "7d" }
     );
 
+    // ✅ Success UI
     return res.send(`
-      <h2>Login Success</h2>
-      <p>Copy token:</p>
-      <textarea style="width:100%;height:120px">${token}</textarea>
+      <html>
+        <head>
+          <title>Login Success</title>
+        </head>
+        <body style="font-family:sans-serif;text-align:center;padding:40px">
+          <h2>✅ Login Successful</h2>
+          <p>Your token:</p>
+          <textarea style="width:100%;max-width:600px;height:120px">${jwtToken}</textarea>
+          <br/><br/>
+          <small>You can now copy this token and use it in the app.</small>
+        </body>
+      </html>
     `);
 
-  } catch (err) {
-    console.error(err.response?.data || err);
-    res.send("Login error");
+  } catch (error) {
+    console.error("OAuth Error:", error.response?.data || error.message);
+
+    return res.status(500).send(`
+      <h2>❌ Login Failed</h2>
+      <p>Something went wrong during authentication.</p>
+    `);
   }
 }
