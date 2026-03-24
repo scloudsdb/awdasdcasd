@@ -89,7 +89,10 @@ export default async function handler(req, res) {
           <h3>Logging you in...</h3>
       
           <script>
-            window.location.href = "steamclouds://auth?token=${jwtToken}";
+            window.location.href = "steamclouds://auth?token=${encodeURIComponent(jwtToken)}";
+            setTimeout(() => {
+              window.close();
+            }, 1500);
           </script>
       
           <p>If nothing happens, click below:</p>
