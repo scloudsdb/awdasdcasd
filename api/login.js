@@ -1,12 +1,10 @@
 export default function handler(req, res) {
-  const redirect = encodeURIComponent(process.env.DISCORD_REDIRECT_URI);
+  const params = new URLSearchParams({
+    client_id: process.env.DISCORD_CLIENT_ID,
+    response_type: "code",
+    redirect_uri: process.env.DISCORD_REDIRECT_URI,
+    scope: "identify guilds",
+  });
 
-  const url =
-    `https://discord.com/oauth2/authorize` +
-    `?client_id=${process.env.DISCORD_CLIENT_ID}` +
-    `&response_type=code` +
-    `&redirect_uri=${redirect}` +
-    `&scope=identify guilds`;
-
-  res.redirect(url);
+  res.redirect(`https://discord.com/oauth2/authorize?${params}`);
 }
