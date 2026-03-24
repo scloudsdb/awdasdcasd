@@ -6,10 +6,7 @@ export default async function handler(req, res) {
 
   // ❌ No code
   if (!code) {
-    return res.status(400).send(`
-      <h2>❌ Error</h2>
-      <p>No authorization code provided.</p>
-    `);
+    return res.status(400).send("No authorization code provided");
   }
 
   try {
@@ -32,7 +29,7 @@ export default async function handler(req, res) {
 
     const accessToken = tokenResponse.data.access_token;
 
-    // 👤 Fetch user info
+    // 👤 Get user info
     const userResponse = await axios.get(
       "https://discord.com/api/users/@me",
       {
@@ -44,6 +41,39 @@ export default async function handler(req, res) {
 
     const user = userResponse.data;
 
+    // 🏠 Get user guilds
+    const guildResponse = await axios.get(
+      "https://discord.com/api/users/@me/guilds",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const guilds = guildResponse.data;
+
+    const isMember = guilds.some(
+      (g) => g.id === process.env.GUILD_ID
+    );
+
+    // ❌ NOT JOIN SERVER
+    if (!isMember) {
+      return res.send(`
+        <html>
+          <body style="font-family:sans-serif;text-align:center;padding:40px">
+            <h2>❌ Access Denied</h2>
+            <p>You must join our Discord server first.</p>
+            <a href="https://discord.gg/Qsp6Sbq6wy" target="_blank">
+              <button style="padding:10px 20px;font-size:16px">
+                Join Server
+              </button>
+            </a>
+          </body>
+        </html>
+      `);
+    }
+
     // 🎟️ Generate JWT
     const jwtToken = jwt.sign(
       {
@@ -54,28 +84,12 @@ export default async function handler(req, res) {
       { expiresIn: "7d" }
     );
 
-    // ✅ Success UI
-    return res.send(`
-      <html>
-        <head>
-          <title>Login Success</title>
-        </head>
-        <body style="font-family:sans-serif;text-align:center;padding:40px">
-          <h2>✅ Login Successful</h2>
-          <p>Your token:</p>
-          <textarea style="width:100%;max-width:600px;height:120px">${jwtToken}</textarea>
-          <br/><br/>
-          <small>You can now copy this token and use it in the app.</small>
-        </body>
-      </html>
-    `);
+    // 🔥 AUTO LOGIN → REDIRECT KE APP
+    return res.redirect(`steamclouds://auth?token=${jwtToken}`);
 
   } catch (error) {
     console.error("OAuth Error:", error.response?.data || error.message);
 
-    return res.status(500).send(`
-      <h2>❌ Login Failed</h2>
-      <p>Something went wrong during authentication.</p>
-    `);
+    return res.status(500).send("Login failed");
   }
 }
