@@ -105,8 +105,15 @@ console.log("CLIENT_ID:", process.env.DISCORD_CLIENT_ID);
 `);
 
   } catch (error) {
-    console.error("OAuth Error:", error.response?.data || error.message);
+  console.log("=== OAUTH ERROR ===");
 
-    return res.status(500).send("Login failed");
+  if (error.response) {
+    console.log("DATA:", error.response.data);
+    console.log("STATUS:", error.response.status);
+  } else {
+    console.log("ERROR:", error.message);
   }
+
+  return res.status(500).send("Login failed - check logs");
+}
 }
