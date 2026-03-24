@@ -83,9 +83,22 @@ export default async function handler(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-
-    // 🔥 AUTO LOGIN → REDIRECT KE APP
-    return res.redirect(`steamclouds://auth?token=${jwtToken}`);
+      return res.send(`
+      <html>
+        <body style="background:#0f1720;color:white;text-align:center;font-family:sans-serif;padding-top:50px">
+          <h3>Logging you in...</h3>
+      
+          <script>
+            window.location.href = "steamclouds://auth?token=${jwtToken}";
+          </script>
+      
+          <p>If nothing happens, click below:</p>
+          <a href="steamclouds://auth?token=${jwtToken}">
+            Open App
+          </a>
+        </body>
+      </html>
+      `);
 
   } catch (error) {
     console.error("OAuth Error:", error.response?.data || error.message);
