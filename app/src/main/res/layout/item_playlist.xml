@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
-    app:cardBackgroundColor="@color/surface"
+    
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     android:clickable="true"
@@ -26,7 +26,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_playlist"
-                app:tint="@color/primary"
+                app:tint="?colorPrimary"
                 android:contentDescription="@string/playlist" />
 
             <LinearLayout
@@ -40,7 +40,7 @@
                     android:id="@+id/tvPlaylistName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/on_surface"
+                    android:textColor="?colorOnSurface"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:singleLine="true"
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:textColor="@color/on_surface_variant"
+                    android:textColor="?colorOnSurfaceVariant"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -69,7 +69,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_more_vert"
                 android:contentDescription="@string/more_options"
-                app:tint="@color/on_surface_variant" />
+                app:tint="?colorOnSurfaceVariant" />
 
         </LinearLayout>
 

@@ -3,10 +3,12 @@ package com.univiptv.orionhub.site.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.univiptv.orionhub.site.R
 import com.univiptv.orionhub.site.data.model.Channel
 
@@ -30,10 +32,25 @@ class ChannelAdapter(
         private val tvCategory: TextView = itemView.findViewById(R.id.tvChannelCategory)
         private val statusDot: View = itemView.findViewById(R.id.statusDot)
         private val badgeStatus: TextView = itemView.findViewById(R.id.badgeStatus)
+        private val ivLogo: ImageView = itemView.findViewById(R.id.ivChannelLogo)
 
         fun bind(channel: Channel) {
             tvName.text = channel.name
             tvCategory.text = channel.category
+
+            val logo = channel.logoUrl
+            if (!logo.isNullOrEmpty()) {
+                ivLogo.visibility = View.VISIBLE
+                Glide.with(itemView.context)
+                    .load(logo)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_tv)
+                    .error(R.drawable.ic_tv)
+                    .into(ivLogo)
+            } else {
+                ivLogo.visibility = View.GONE
+            }
+
             if (channel.isOnline) {
                 statusDot.setBackgroundResource(R.drawable.status_online)
                 badgeStatus.text = itemView.context.getString(R.string.online)

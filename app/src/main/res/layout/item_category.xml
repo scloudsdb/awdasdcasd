@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
-    app:cardBackgroundColor="@color/surface"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="1dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
     android:clickable="true"
     android:focusable="true">
 
@@ -21,7 +20,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_category"
-            app:tint="@color/secondary"
+            app:tint="?colorPrimary"
             android:contentDescription="@string/category" />
 
         <LinearLayout
@@ -35,7 +34,7 @@
                 android:id="@+id/tvCategoryName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/on_surface"
+                android:textColor="?colorOnSurface"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:singleLine="true" />
@@ -44,12 +43,11 @@
                 android:id="@+id/tvCategoryCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/on_surface_variant"
+                android:textColor="?colorOnSurfaceVariant"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
-        <!-- Online badge -->
         <TextView
             android:id="@+id/badgeCatOnline"
             android:layout_width="wrap_content"
@@ -61,7 +59,6 @@
             android:textSize="11sp"
             android:textStyle="bold" />
 
-        <!-- Offline badge -->
         <TextView
             android:id="@+id/badgeCatOffline"
             android:layout_width="wrap_content"
@@ -79,7 +76,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_chevron_right"
-            app:tint="@color/on_surface_variant"
+            app:tint="?colorOnSurfaceVariant"
             android:contentDescription="@string/open_category" />
 
     </LinearLayout>

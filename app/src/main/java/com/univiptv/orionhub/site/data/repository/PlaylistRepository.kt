@@ -150,8 +150,10 @@ class PlaylistRepository(context: Context) {
     }
 
     suspend fun downloadPlaylistContent(playlistId: Long): String? {
-        val playlist = playlistDao.getPlaylistById(playlistId) ?: return null
-        val url = playlist.url ?: return null
-        return withContext(Dispatchers.IO) { downloadContent(url) }
+        val channels = channelDao.getChannelsByPlaylistSync(playlistId)
+        if (channels.isEmpty()) return null
+        return withContext(Dispatchers.IO) {
+            M3UParser.exportOnlineChannels(channels)
+        }
     }
 }

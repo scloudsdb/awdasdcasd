@@ -388,10 +388,16 @@ class MainActivity : AppCompatActivity() {
             putExtra(PlayerActivity.EXTRA_CHANNEL_NAME, channel.name)
             putExtra(PlayerActivity.EXTRA_CHANNEL_URL, channel.url)
             putExtra(PlayerActivity.EXTRA_IMAGE_URL, channel.imageUrl ?: channel.logoUrl)
+            putExtra(PlayerActivity.EXTRA_USER_AGENT, channel.userAgent)
+            putExtra(PlayerActivity.EXTRA_REFERRER, channel.referrer)
             if (!channel.drmKeyId.isNullOrEmpty() && !channel.drmKey.isNullOrEmpty()) {
                 putExtra(PlayerActivity.EXTRA_IS_DRM, true)
                 putExtra(PlayerActivity.EXTRA_DRM_KEY_ID, channel.drmKeyId)
                 putExtra(PlayerActivity.EXTRA_DRM_KEY, channel.drmKey)
+                putExtra(PlayerActivity.EXTRA_DRM_TYPE, channel.drmType)
+            }
+            if (!channel.drmLicenseUrl.isNullOrEmpty()) {
+                putExtra(PlayerActivity.EXTRA_DRM_LICENSE_URL, channel.drmLicenseUrl)
             }
         }
         startActivity(intent)

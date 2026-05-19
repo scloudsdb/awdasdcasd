@@ -28,7 +28,10 @@ data class Channel(
     val drmLicenseUrl: String? = null,
     val drmKeyId: String? = null,
     val drmKey: String? = null,
+    val drmType: String? = null,
     val imageUrl: String? = null,
+    val userAgent: String? = null,
+    val referrer: String? = null,
     val isOnline: Boolean = true,
     val lastChecked: Long = 0
 )

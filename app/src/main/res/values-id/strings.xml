@@ -46,7 +46,9 @@
     <string name="playlist_management">Manajemen Playlist</string>
     <string name="download_playlist">Unduh Playlist</string>
     <string name="about">Tentang</string>
-    <string name="version_info">Versi 1.0.0</string>
+    <string name="version_info">Versi 2.1.0</string>
+    <string name="no_playlists_available">Tidak ada playlist tersedia</string>
+    <string name="export_online_only">Ekspor Channel Online Saja</string>
     <string name="developer_info">Pengembang: ShadowNightDev</string>
     <string name="powered_by">Powered by orionhub.site</string>
 

@@ -85,6 +85,7 @@ class SettingsActivity : AppCompatActivity() {
             if (newTheme != currentTheme) {
                 ThemeHelper.setTheme(this, newTheme)
                 Toast.makeText(this, R.string.theme_changed, Toast.LENGTH_SHORT).show()
+                restartApp()
             }
         }
     }

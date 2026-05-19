@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.univiptv.orionhub.site.data.model.Channel
 import com.univiptv.orionhub.site.data.model.Playlist
 
-@Database(entities = [Playlist::class, Channel::class], version = 1, exportSchema = false)
+@Database(entities = [Playlist::class, Channel::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun playlistDao(): PlaylistDao
     abstract fun channelDao(): ChannelDao

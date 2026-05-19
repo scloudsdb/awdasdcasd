@@ -46,7 +46,9 @@
     <string name="playlist_management">Playlist Management</string>
     <string name="download_playlist">Download Playlist</string>
     <string name="about">About</string>
-    <string name="version_info">Version 1.0.0</string>
+    <string name="version_info">Version 2.1.0</string>
+    <string name="no_playlists_available">No playlists available</string>
+    <string name="export_online_only">Export Online Channels Only</string>
     <string name="developer_info">Developer: ShadowNightDev</string>
     <string name="powered_by">Powered by orionhub.site</string>
 

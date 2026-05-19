@@ -34,7 +34,11 @@ class PlayerActivity : AppCompatActivity() {
         const val EXTRA_IS_DRM = "is_drm"
         const val EXTRA_DRM_KEY_ID = "drm_key_id"
         const val EXTRA_DRM_KEY = "drm_key"
+        const val EXTRA_DRM_TYPE = "drm_type"
         const val EXTRA_IMAGE_URL = "image_url"
+        const val EXTRA_USER_AGENT = "user_agent"
+        const val EXTRA_REFERRER = "referrer"
+        const val EXTRA_DRM_LICENSE_URL = "drm_license_url"
     }
 
     private lateinit var binding: ActivityPlayerBinding
@@ -44,7 +48,11 @@ class PlayerActivity : AppCompatActivity() {
     private var isDrm = false
     private var drmKeyId = ""
     private var drmKey = ""
+    private var drmType = ""
+    private var drmLicenseUrl = ""
     private var imageUrl: String? = null
+    private var userAgent: String? = null
+    private var referrer: String? = null
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase))
@@ -61,7 +69,11 @@ class PlayerActivity : AppCompatActivity() {
         isDrm = intent.getBooleanExtra(EXTRA_IS_DRM, false)
         drmKeyId = intent.getStringExtra(EXTRA_DRM_KEY_ID) ?: ""
         drmKey = intent.getStringExtra(EXTRA_DRM_KEY) ?: ""
+        drmType = intent.getStringExtra(EXTRA_DRM_TYPE) ?: ""
+        drmLicenseUrl = intent.getStringExtra(EXTRA_DRM_LICENSE_URL) ?: ""
         imageUrl = intent.getStringExtra(EXTRA_IMAGE_URL)
+        userAgent = intent.getStringExtra(EXTRA_USER_AGENT)
+        referrer = intent.getStringExtra(EXTRA_REFERRER)
 
         binding.tvChannelName.text = channelName
         binding.btnBack.setOnClickListener { finish() }
@@ -124,21 +136,34 @@ class PlayerActivity : AppCompatActivity() {
         player?.stop()
         player?.clearMediaItems()
 
-        val httpClient = OkHttpClient.Builder()
+        val effectiveUserAgent = userAgent ?: "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+
+        val httpClientBuilder = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .followRedirects(true)
             .followSslRedirects(true)
-            .build()
+
+        if (!referrer.isNullOrEmpty()) {
+            httpClientBuilder.addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .header("Referer", referrer!!)
+                    .header("User-Agent", effectiveUserAgent)
+                    .build()
+                chain.proceed(request)
+            }
+        }
+
+        val httpClient = httpClientBuilder.build()
         val dataSourceFactory = OkHttpDataSource.Factory(httpClient)
-            .setUserAgent("ExoPlayer")
+            .setUserAgent(effectiveUserAgent)
 
         val mediaSource: MediaSource = if (isDrm && drmKeyId.isNotEmpty() && drmKey.isNotEmpty()) {
             buildDrmSource(dataSourceFactory)
-        } else if (channelUrl.contains(".mpd", ignoreCase = true) || channelUrl.contains("dash", ignoreCase = true)) {
+        } else if (channelUrl.contains(".mpd", ignoreCase = true) || channelUrl.contains("/dash/", ignoreCase = true)) {
             DashMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(channelUrl))
-        } else if (channelUrl.contains(".m3u8", ignoreCase = true) || channelUrl.contains("hls", ignoreCase = true)) {
+        } else if (channelUrl.contains(".m3u8", ignoreCase = true) || channelUrl.contains("/hls/", ignoreCase = true)) {
             HlsMediaSource.Factory(dataSourceFactory)
                 .setAllowChunklessPreparation(true)
                 .createMediaSource(MediaItem.fromUri(channelUrl))
@@ -159,7 +184,6 @@ class PlayerActivity : AppCompatActivity() {
         val cleanKey = drmKey.replace("-", "").lowercase()
 
         val initData = buildClearKeyJsonResponse(cleanKeyId, cleanKey)
-
         val drmCallback = LocalMediaDrmCallback(initData)
 
         val drmSessionManager = DefaultDrmSessionManager.Builder()
