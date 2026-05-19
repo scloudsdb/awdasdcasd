@@ -7,11 +7,17 @@
     android:background="@color/background"
     tools:context=".ui.main.MainActivity">
 
+    <!-- Particle background -->
+    <com.univiptv.orionhub.site.ui.components.ParticleView
+        android:id="@+id/particleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface">
+        android:background="@color/surface_alpha">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -21,13 +27,6 @@
             app:titleTextColor="@color/on_surface"
             app:menu="@menu/main_menu" />
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/searchBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_channels"
-            android:visibility="gone" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -36,82 +35,196 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- URL Input Section -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/urlInputCard"
+        <!-- Input Section (URL + DRM + Import) -->
+        <LinearLayout
+            android:id="@+id/inputSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <!-- M3U URL Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_playlist"
-                    android:textColor="@color/on_surface"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/urlInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/urlInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/enter_m3u_url"
-                        android:inputType="textUri"
-                        android:textSize="14sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnImportFile"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="@string/import_file"
-                        app:icon="@drawable/ic_file_upload"
-                        style="@style/Widget.Material3.Button.TonalButton" />
+                        android:text="@string/add_playlist"
+                        android:textColor="@color/primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnLoadUrl"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/load_url"
-                        app:icon="@drawable/ic_cloud_download"
-                        style="@style/Widget.Material3.Button" />
+                        android:layout_marginTop="8dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/urlInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/enter_m3u_url"
+                            android:inputType="textUri"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnImportFile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/import_file"
+                            android:textSize="12sp"
+                            app:cornerRadius="14dp"
+                            app:icon="@drawable/ic_file_upload"
+                            app:iconSize="18dp"
+                            style="@style/Widget.Material3.Button.TonalButton" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnLoadUrl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="@string/load_url"
+                            android:textSize="12sp"
+                            app:cornerRadius="14dp"
+                            app:icon="@drawable/ic_cloud_download"
+                            app:iconSize="18dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
+            <!-- DRM Player Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp">
 
-        <!-- Loading indicator -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drm_player"
+                        android:textColor="@color/secondary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etMpdUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/mpd_url_hint"
+                            android:inputType="textUri"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etImageUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/image_url_hint"
+                            android:inputType="textUri"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
+                        app:helperText="@string/kid_key_format"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etKidKey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/kid_key_hint"
+                            android:inputType="text"
+                            android:textSize="13sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayDrm"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/play_drm"
+                        android:textSize="13sp"
+                        app:cornerRadius="14dp"
+                        app:icon="@drawable/ic_play"
+                        app:iconSize="20dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <!-- Loading -->
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
@@ -120,7 +233,7 @@
             android:visibility="gone"
             app:indicatorColor="@color/primary" />
 
-        <!-- Playlist / Category tabs -->
+        <!-- Tabs -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
@@ -131,9 +244,9 @@
             app:tabIndicatorColor="@color/primary"
             app:tabSelectedTextColor="@color/primary"
             app:tabTextColor="@color/on_surface_variant"
-            android:background="@color/surface" />
+            android:background="@color/surface_alpha" />
 
-        <!-- Content area -->
+        <!-- Content -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
@@ -151,7 +264,6 @@
                     android:clipToPadding="false"
                     android:padding="8dp" />
 
-                <!-- Empty state -->
                 <LinearLayout
                     android:id="@+id/emptyState"
                     android:layout_width="match_parent"
@@ -161,10 +273,11 @@
                     android:padding="32dp">
 
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:src="@drawable/ic_playlist"
-                        android:alpha="0.4"
+                        android:alpha="0.3"
+                        app:tint="@color/primary"
                         android:contentDescription="@string/no_playlists" />
 
                     <TextView
@@ -173,17 +286,18 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/no_playlists"
                         android:textColor="@color/on_surface_variant"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:gravity="center" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/add_playlist_hint"
                         android:textColor="@color/on_surface_variant"
-                        android:textSize="14sp"
-                        android:gravity="center" />
+                        android:textSize="13sp"
+                        android:gravity="center"
+                        android:alpha="0.7" />
 
                 </LinearLayout>
 

@@ -2,66 +2,73 @@
 <resources>
     <string name="app_name">Universal IPTV</string>
 
-    <!-- Utama -->
+    <!-- Main -->
     <string name="add_playlist">Tambah Playlist</string>
-    <string name="enter_m3u_url">Masukkan URL M3U</string>
+    <string name="enter_m3u_url">Masukkan URL M3U/M3U8</string>
     <string name="load_url">Muat URL</string>
     <string name="import_file">Impor File</string>
-    <string name="import_m3u_bin">Impor File M3U / BIN</string>
-    <string name="download_playlist">Unduh Playlist</string>
-    <string name="no_playlists">Belum Ada Playlist</string>
-    <string name="add_playlist_hint">Tambahkan playlist dengan memasukkan URL atau mengimpor file</string>
-    <string name="search_channels">Cari channel…</string>
-    <string name="search">Cari</string>
-    <string name="playlist">Playlist</string>
-    <string name="category">Kategori</string>
-    <string name="open_category">Buka kategori</string>
-    <string name="play">Putar</string>
-    <string name="more_options">Opsi lainnya</string>
-    <string name="channels_count">%d channel</string>
+    <string name="no_playlists">Belum ada playlist</string>
+    <string name="add_playlist_hint">Muat URL atau impor file M3U/BIN untuk memulai</string>
+    <string name="channels_count">%d Channel</string>
     <string name="online_count">%d Online</string>
     <string name="offline_count">%d Offline</string>
-    <string name="all_channels">Semua Channel</string>
-    <string name="refresh">Segarkan</string>
-    <string name="delete">Hapus</string>
-    <string name="check_status">Cek Status</string>
-    <string name="delete_confirm">Apakah Anda yakin ingin menghapus playlist ini?</string>
-    <string name="yes">Ya</string>
-    <string name="no">Tidak</string>
-    <string name="cancel">Batal</string>
-    <string name="loading">Memuat…</string>
-    <string name="playlist_name">Nama Playlist</string>
-    <string name="enter_playlist_name">Masukkan nama playlist</string>
-    <string name="add">Tambah</string>
-    <string name="please_enter_url">Silakan masukkan URL</string>
-    <string name="please_enter_name">Silakan masukkan nama</string>
-    <string name="playlist_added">Playlist berhasil ditambahkan</string>
-    <string name="playlist_deleted">Playlist dihapus</string>
-    <string name="error_loading">Gagal memuat playlist</string>
-    <string name="select_files">Pilih file M3U atau BIN</string>
-    <string name="files_imported">%d file berhasil diimpor</string>
-    <string name="download_complete">Unduhan selesai</string>
-    <string name="saved_to">Tersimpan di %s</string>
-
-    <!-- Pemutar -->
-    <string name="play_pause">Putar / Jeda</string>
-    <string name="fullscreen">Layar penuh</string>
-    <string name="back">Kembali</string>
-    <string name="stream_error">Tidak dapat memutar stream ini</string>
-    <string name="retry">Coba Lagi</string>
-    <string name="error">Kesalahan</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+    <string name="all_channels">Semua</string>
 
-    <!-- Pengaturan -->
+    <!-- DRM -->
+    <string name="drm_player">Pemutar DRM</string>
+    <string name="mpd_url_hint">URL MPD (stream DASH)</string>
+    <string name="image_url_hint">URL Gambar (opsional)</string>
+    <string name="kid_key_hint">KID:KEY</string>
+    <string name="kid_key_format">Format: kid:key (nilai hex)</string>
+    <string name="play_drm">Putar Stream DRM</string>
+    <string name="please_enter_mpd">Masukkan URL MPD</string>
+    <string name="please_enter_kid_key">Masukkan KID:KEY (format: kid:key)</string>
+
+    <!-- Player -->
+    <string name="back">Kembali</string>
+    <string name="channel_logo">Logo Channel</string>
+    <string name="stream_error">Error streaming. Silakan coba lagi.</string>
+    <string name="retry">Coba Lagi</string>
+
+    <!-- Settings -->
     <string name="settings">Pengaturan</string>
-    <string name="language_settings">Bahasa</string>
+    <string name="language">Bahasa</string>
     <string name="english">English</string>
     <string name="indonesian">Bahasa Indonesia</string>
+    <string name="language_changed">Bahasa telah diubah</string>
     <string name="playlist_management">Manajemen Playlist</string>
+    <string name="download_playlist">Unduh Playlist</string>
     <string name="about">Tentang</string>
     <string name="version_info">Versi 1.0.0</string>
     <string name="developer_info">Pengembang: ShadowNightDev</string>
     <string name="powered_by">Powered by orionhub.site</string>
-    <string name="language_changed">Bahasa diubah. Memulai ulang…</string>
+
+    <!-- Actions -->
+    <string name="refresh">Segarkan</string>
+    <string name="check_status">Cek Status</string>
+    <string name="delete">Hapus</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="add">Tambah</string>
+    <string name="cancel">Batal</string>
+    <string name="search">Cari</string>
+
+    <!-- Messages -->
+    <string name="playlist_name">Nama Playlist</string>
+    <string name="enter_playlist_name">Masukkan nama playlist</string>
+    <string name="please_enter_url">Masukkan URL terlebih dahulu</string>
+    <string name="please_enter_name">Masukkan nama terlebih dahulu</string>
+    <string name="playlist_added">Playlist ditambahkan</string>
+    <string name="playlist_deleted">Playlist dihapus</string>
+    <string name="delete_confirm">Hapus playlist ini?</string>
+    <string name="files_imported">%d file berhasil diimpor</string>
+    <string name="saved_to">Tersimpan di: %s</string>
+    <string name="error">Kesalahan</string>
+    <string name="category">Kategori</string>
+    <string name="open_category">Buka kategori</string>
+    <string name="play">Putar</string>
+    <string name="playlist">Playlist</string>
+    <string name="more_options">Opsi lainnya</string>
 </resources>

@@ -4,19 +4,28 @@
     <color name="on_primary">#FFFFFF</color>
     <color name="primary_container">#EADDFF</color>
     <color name="on_primary_container">#21005D</color>
+
     <color name="secondary">#625B71</color>
     <color name="on_secondary">#FFFFFF</color>
     <color name="secondary_container">#E8DEF8</color>
     <color name="on_secondary_container">#1D192B</color>
-    <color name="background">#FFFBFE</color>
+
+    <color name="tertiary">#7D5260</color>
+    <color name="on_tertiary">#FFFFFF</color>
+
+    <color name="background">#F8F5FF</color>
     <color name="on_background">#1C1B1F</color>
     <color name="surface">#FFFBFE</color>
     <color name="on_surface">#1C1B1F</color>
     <color name="on_surface_variant">#49454F</color>
-    <color name="surface_variant">#E7E0EC</color>
+    <color name="surface_alpha">#E8FFFBFE</color>
+    <color name="card_bg">#F2EEFF</color>
+
     <color name="outline">#79747E</color>
-    <color name="error">#B3261E</color>
-    <color name="on_error">#FFFFFF</color>
-    <color name="badge_online">#4CAF50</color>
-    <color name="badge_offline">#F44336</color>
+    <color name="outline_variant">#CAC4D0</color>
+
+    <color name="online_green">#4CAF50</color>
+    <color name="offline_red">#F44336</color>
+    <color name="badge_online_bg">#1A4CAF50</color>
+    <color name="badge_offline_bg">#1AF44336</color>
 </resources>

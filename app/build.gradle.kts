@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.shadownightdev.universaliptv"
+    namespace = "com.univiptv.orionhub.site"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.shadownightdev.universaliptv"
+        applicationId = "com.univiptv.orionhub.site"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -56,9 +56,10 @@ dependencies {
     // Material Design 3
     implementation("com.google.android.material:material:1.11.0")
 
-    // ExoPlayer (Media3)
+    // ExoPlayer (Media3) with DRM
     implementation("androidx.media3:media3-exoplayer:1.2.1")
     implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.2.1")
     implementation("androidx.media3:media3-ui:1.2.1")
     implementation("androidx.media3:media3-session:1.2.1")
     implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
@@ -77,7 +78,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-    // OkHttp for network
+    // OkHttp
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Navigation
@@ -86,4 +87,8 @@ dependencies {
 
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
 }

@@ -10,10 +10,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/surface"
-        app:navigationIcon="@drawable/ic_arrow_back"
         app:title="@string/settings"
-        app:titleTextColor="@color/on_surface" />
+        app:titleTextColor="@color/on_surface"
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,52 +23,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="14dp">
 
-            <!-- Language Settings -->
+            <!-- Language -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp">
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/language_settings"
+                        android:text="@string/language"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <RadioGroup
                         android:id="@+id/languageGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="12dp">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/radioEnglish"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="8dp"
                             android:text="@string/english"
-                            android:textSize="16sp" />
+                            android:padding="4dp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/radioIndonesian"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="8dp"
                             android:text="@string/indonesian"
-                            android:textSize="16sp" />
+                            android:padding="4dp" />
 
                     </RadioGroup>
 
@@ -81,34 +77,33 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp">
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/playlist_management"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/settingsUrlInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusBottomEnd="14dp"
+                        app:boxCornerRadiusBottomStart="14dp"
+                        app:boxCornerRadiusTopEnd="14dp"
+                        app:boxCornerRadiusTopStart="14dp"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -117,33 +112,36 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/enter_m3u_url"
                             android:inputType="textUri"
-                            android:textSize="14sp" />
+                            android:textSize="13sp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSettingsLoadUrl"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="10dp"
                         android:text="@string/load_url"
+                        app:cornerRadius="14dp"
                         app:icon="@drawable/ic_cloud_download" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSettingsImport"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/import_m3u_bin"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/import_file"
+                        app:cornerRadius="14dp"
                         app:icon="@drawable/ic_file_upload"
                         style="@style/Widget.Material3.Button.TonalButton" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDownloadPlaylist"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/download_playlist"
+                        app:cornerRadius="14dp"
                         app:icon="@drawable/ic_download"
                         style="@style/Widget.Material3.Button.OutlinedButton" />
 
@@ -155,32 +153,32 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp">
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/card_bg"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/about"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="@string/app_name"
                         android:textColor="@color/on_surface"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -189,7 +187,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/version_info"
                         android:textColor="@color/on_surface_variant"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -197,7 +195,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/developer_info"
                         android:textColor="@color/on_surface_variant"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -208,20 +206,14 @@
     </ScrollView>
 
     <!-- Footer -->
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface"
         android:gravity="center"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/powered_by"
-            android:textColor="@color/on_surface_variant"
-            android:textSize="13sp" />
-
-    </LinearLayout>
+        android:padding="16dp"
+        android:text="@string/powered_by"
+        android:textColor="@color/on_surface_variant"
+        android:textSize="12sp"
+        android:alpha="0.7" />
 
 </LinearLayout>
