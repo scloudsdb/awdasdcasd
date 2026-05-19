@@ -1,0 +1,4 @@
+-keepattributes *Annotation*
+-keep class com.shadownightdev.universaliptv.data.model.** { *; }
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn okhttp3.**
