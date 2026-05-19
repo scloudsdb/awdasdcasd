@@ -10,13 +10,10 @@ object ThemeHelper {
 
     const val THEME_LIGHT = "light"
     const val THEME_DARK = "dark"
-    const val THEME_SYSTEM = "system"
-
     fun applyTheme(context: Context) {
         when (getTheme(context)) {
             THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
 

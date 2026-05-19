@@ -117,13 +117,6 @@
                             android:text="@string/theme_dark"
                             android:padding="4dp" />
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/radioThemeSystem"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/theme_system"
-                            android:padding="4dp" />
-
                     </RadioGroup>
 
                 </LinearLayout>

@@ -73,13 +73,11 @@ class SettingsActivity : AppCompatActivity() {
         when (currentTheme) {
             ThemeHelper.THEME_LIGHT -> binding.radioThemeLight.isChecked = true
             ThemeHelper.THEME_DARK -> binding.radioThemeDark.isChecked = true
-            ThemeHelper.THEME_SYSTEM -> binding.radioThemeSystem.isChecked = true
         }
         binding.themeGroup.setOnCheckedChangeListener { _, checkedId ->
             val newTheme = when (checkedId) {
                 R.id.radioThemeLight -> ThemeHelper.THEME_LIGHT
                 R.id.radioThemeDark -> ThemeHelper.THEME_DARK
-                R.id.radioThemeSystem -> ThemeHelper.THEME_SYSTEM
                 else -> ThemeHelper.THEME_LIGHT
             }
             if (newTheme != currentTheme) {
