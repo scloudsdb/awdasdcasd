@@ -11,7 +11,8 @@ import com.univiptv.orionhub.site.R
 import com.univiptv.orionhub.site.data.model.Channel
 
 class ChannelAdapter(
-    private val onClick: (Channel) -> Unit
+    private val onClick: (Channel) -> Unit,
+    private val onLongClick: ((Channel) -> Unit)? = null
 ) : ListAdapter<Channel, ChannelAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,6 +44,12 @@ class ChannelAdapter(
                 badgeStatus.setBackgroundResource(R.drawable.badge_offline)
             }
             itemView.setOnClickListener { onClick(channel) }
+            onLongClick?.let { longCallback ->
+                itemView.setOnLongClickListener {
+                    longCallback(channel)
+                    true
+                }
+            }
         }
     }
 

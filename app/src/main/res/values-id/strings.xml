@@ -38,6 +38,11 @@
     <string name="english">English</string>
     <string name="indonesian">Bahasa Indonesia</string>
     <string name="language_changed">Bahasa telah diubah</string>
+    <string name="theme">Tema</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theme_system">Default Sistem</string>
+    <string name="theme_changed">Tema diubah</string>
     <string name="playlist_management">Manajemen Playlist</string>
     <string name="download_playlist">Unduh Playlist</string>
     <string name="about">Tentang</string>
@@ -71,4 +76,10 @@
     <string name="play">Putar</string>
     <string name="playlist">Playlist</string>
     <string name="more_options">Opsi lainnya</string>
+    <string name="delete_channel">Hapus Channel</string>
+    <string name="delete_category">Hapus Kategori</string>
+    <string name="delete_channel_confirm">Hapus channel ini?</string>
+    <string name="delete_category_confirm">Hapus kategori ini beserta semua channelnya?</string>
+    <string name="channel_deleted">Channel dihapus</string>
+    <string name="category_deleted">Kategori dihapus</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.dash.DashMediaSource
@@ -78,9 +79,13 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun initPlayer() {
-        player = ExoPlayer.Builder(this).build()
+        player = ExoPlayer.Builder(this)
+            .build().apply {
+                videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT
+            }
         binding.playerView.player = player
         binding.playerView.setKeepScreenOn(true)
+        binding.playerView.useController = true
 
         player?.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
@@ -95,6 +100,17 @@ class PlayerActivity : AppCompatActivity() {
             override fun onPlayerError(error: PlaybackException) {
                 showError(error.localizedMessage ?: getString(R.string.stream_error))
             }
+
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                super.onVideoSizeChanged(videoSize)
+                if (videoSize.width > 0 && videoSize.height > 0) {
+                    showPlayer()
+                }
+            }
+
+            override fun onRenderedFirstFrame() {
+                showPlayer()
+            }
         })
     }
 
@@ -105,12 +121,17 @@ class PlayerActivity : AppCompatActivity() {
         }
         showLoading()
 
+        player?.stop()
+        player?.clearMediaItems()
+
         val httpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .followRedirects(true)
+            .followSslRedirects(true)
             .build()
         val dataSourceFactory = OkHttpDataSource.Factory(httpClient)
+            .setUserAgent("ExoPlayer")
 
         val mediaSource: MediaSource = if (isDrm && drmKeyId.isNotEmpty() && drmKey.isNotEmpty()) {
             buildDrmSource(dataSourceFactory)
@@ -119,6 +140,7 @@ class PlayerActivity : AppCompatActivity() {
                 .createMediaSource(MediaItem.fromUri(channelUrl))
         } else if (channelUrl.contains(".m3u8", ignoreCase = true) || channelUrl.contains("hls", ignoreCase = true)) {
             HlsMediaSource.Factory(dataSourceFactory)
+                .setAllowChunklessPreparation(true)
                 .createMediaSource(MediaItem.fromUri(channelUrl))
         } else {
             ProgressiveMediaSource.Factory(dataSourceFactory)
@@ -135,11 +157,6 @@ class PlayerActivity : AppCompatActivity() {
     private fun buildDrmSource(dataSourceFactory: OkHttpDataSource.Factory): MediaSource {
         val cleanKeyId = drmKeyId.replace("-", "").lowercase()
         val cleanKey = drmKey.replace("-", "").lowercase()
-
-        val keyIdBytes = hexToBytes(cleanKeyId)
-        val keyBytes = hexToBytes(cleanKey)
-
-        val psshBox = buildClearKeyPssh(keyIdBytes)
 
         val initData = buildClearKeyJsonResponse(cleanKeyId, cleanKey)
 
@@ -163,8 +180,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun hexToBase64Url(hex: String): String {
         val bytes = hexToBytes(hex)
-        val b64 = android.util.Base64.encodeToString(bytes, android.util.Base64.URL_SAFE or android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
-        return b64
+        return android.util.Base64.encodeToString(bytes, android.util.Base64.URL_SAFE or android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
     }
 
     private fun hexToBytes(hex: String): ByteArray {
@@ -176,37 +192,6 @@ class PlayerActivity : AppCompatActivity() {
             i += 2
         }
         return data
-    }
-
-    private fun buildClearKeyPssh(keyId: ByteArray): ByteArray {
-        val systemId = byteArrayOf(
-            0x10, 0x77, 0xEF.toByte(), 0xEC.toByte(),
-            0xC0.toByte(), 0xB2.toByte(), 0x4D, 0x02,
-            0xAC.toByte(), 0xE3.toByte(), 0x3C, 0x1E,
-            0x52, 0xE2.toByte(), 0xFB.toByte(), 0x4B
-        )
-        val dataSize = 4 + keyId.size
-        val boxSize = 32 + dataSize
-        val pssh = ByteArray(boxSize)
-        var offset = 0
-        putInt(pssh, offset, boxSize); offset += 4
-        pssh[offset++] = 'p'.code.toByte()
-        pssh[offset++] = 's'.code.toByte()
-        pssh[offset++] = 's'.code.toByte()
-        pssh[offset++] = 'h'.code.toByte()
-        putInt(pssh, offset, 0x01000000); offset += 4
-        System.arraycopy(systemId, 0, pssh, offset, 16); offset += 16
-        putInt(pssh, offset, 1); offset += 4
-        System.arraycopy(keyId, 0, pssh, offset, keyId.size); offset += keyId.size
-        putInt(pssh, offset, 0)
-        return pssh
-    }
-
-    private fun putInt(data: ByteArray, offset: Int, value: Int) {
-        data[offset] = (value shr 24).toByte()
-        data[offset + 1] = (value shr 16).toByte()
-        data[offset + 2] = (value shr 8).toByte()
-        data[offset + 3] = value.toByte()
     }
 
     private fun showLoading() {

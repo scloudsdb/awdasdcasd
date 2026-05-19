@@ -11,7 +11,9 @@
         android:layout_height="match_parent"
         app:show_buffering="always"
         app:use_controller="true"
-        app:resize_mode="fit" />
+        app:resize_mode="fit"
+        app:surface_type="surface_view"
+        app:keep_content_on_player_reset="true" />
 
     <!-- Channel Info Overlay -->
     <LinearLayout

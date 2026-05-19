@@ -52,4 +52,7 @@ interface ChannelDao {
 
     @Query("UPDATE channels SET isOnline = :isOnline, lastChecked = :timestamp WHERE id = :channelId")
     suspend fun updateStatus(channelId: Long, isOnline: Boolean, timestamp: Long)
+
+    @Query("DELETE FROM channels WHERE playlistId = :playlistId AND category = :category")
+    suspend fun deleteByCategory(playlistId: Long, category: String)
 }

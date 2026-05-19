@@ -141,6 +141,14 @@ class PlaylistRepository(context: Context) {
         response.body?.string() ?: throw Exception("Empty response")
     }
 
+    suspend fun deleteChannel(channel: Channel) {
+        channelDao.delete(channel)
+    }
+
+    suspend fun deleteCategory(playlistId: Long, category: String) {
+        channelDao.deleteByCategory(playlistId, category)
+    }
+
     suspend fun downloadPlaylistContent(playlistId: Long): String? {
         val playlist = playlistDao.getPlaylistById(playlistId) ?: return null
         val url = playlist.url ?: return null

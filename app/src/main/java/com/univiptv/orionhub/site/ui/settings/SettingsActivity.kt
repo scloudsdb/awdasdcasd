@@ -15,6 +15,7 @@ import com.univiptv.orionhub.site.databinding.ActivitySettingsBinding
 import com.univiptv.orionhub.site.ui.main.MainActivity
 import com.univiptv.orionhub.site.ui.main.MainViewModel
 import com.univiptv.orionhub.site.util.LocaleHelper
+import com.univiptv.orionhub.site.util.ThemeHelper
 import java.io.File
 import java.io.FileOutputStream
 
@@ -47,6 +48,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.toolbar.setNavigationOnClickListener { finish() }
         setupLanguage()
+        setupTheme()
         setupPlaylistManagement()
     }
 
@@ -61,12 +63,37 @@ class SettingsActivity : AppCompatActivity() {
             if (newLang != currentLang) {
                 LocaleHelper.setLocale(this, newLang)
                 Toast.makeText(this, R.string.language_changed, Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                restartApp()
             }
         }
+    }
+
+    private fun setupTheme() {
+        val currentTheme = ThemeHelper.getTheme(this)
+        when (currentTheme) {
+            ThemeHelper.THEME_LIGHT -> binding.radioThemeLight.isChecked = true
+            ThemeHelper.THEME_DARK -> binding.radioThemeDark.isChecked = true
+            ThemeHelper.THEME_SYSTEM -> binding.radioThemeSystem.isChecked = true
+        }
+        binding.themeGroup.setOnCheckedChangeListener { _, checkedId ->
+            val newTheme = when (checkedId) {
+                R.id.radioThemeLight -> ThemeHelper.THEME_LIGHT
+                R.id.radioThemeDark -> ThemeHelper.THEME_DARK
+                R.id.radioThemeSystem -> ThemeHelper.THEME_SYSTEM
+                else -> ThemeHelper.THEME_LIGHT
+            }
+            if (newTheme != currentTheme) {
+                ThemeHelper.setTheme(this, newTheme)
+                Toast.makeText(this, R.string.theme_changed, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun restartApp() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun setupPlaylistManagement() {

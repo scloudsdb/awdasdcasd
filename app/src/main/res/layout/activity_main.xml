@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?android:colorBackground"
     tools:context=".ui.main.MainActivity">
 
     <!-- Particle background -->
@@ -17,14 +17,17 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface_alpha">
+        android:background="@color/header_bg"
+        app:elevation="4dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
-            app:titleTextColor="@color/on_surface"
+            app:titleTextColor="@color/header_text"
+            app:subtitleTextColor="@color/header_text"
+            app:navigationIconTint="@color/header_icon"
             app:menu="@menu/main_menu" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="14dp"
                 android:layout_marginTop="10dp"
-                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
 
@@ -62,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/add_playlist"
-                        android:textColor="@color/primary"
+                        android:textColor="?colorPrimary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -128,7 +130,6 @@
                 android:layout_marginHorizontal="14dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="6dp"
-                app:cardBackgroundColor="@color/card_bg"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
 
@@ -142,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/drm_player"
-                        android:textColor="@color/secondary"
+                        android:textColor="?colorSecondary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -231,7 +232,7 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:visibility="gone"
-            app:indicatorColor="@color/primary" />
+            app:indicatorColor="?colorPrimary" />
 
         <!-- Tabs -->
         <com.google.android.material.tabs.TabLayout
@@ -241,10 +242,9 @@
             android:visibility="gone"
             app:tabMode="scrollable"
             app:tabGravity="start"
-            app:tabIndicatorColor="@color/primary"
-            app:tabSelectedTextColor="@color/primary"
-            app:tabTextColor="@color/on_surface_variant"
-            android:background="@color/surface_alpha" />
+            app:tabIndicatorColor="?colorPrimary"
+            app:tabSelectedTextColor="?colorPrimary"
+            app:tabTextColor="?colorOnSurfaceVariant" />
 
         <!-- Content -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -277,7 +277,7 @@
                         android:layout_height="100dp"
                         android:src="@drawable/ic_playlist"
                         android:alpha="0.3"
-                        app:tint="@color/primary"
+                        app:tint="?colorPrimary"
                         android:contentDescription="@string/no_playlists" />
 
                     <TextView
@@ -285,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="@string/no_playlists"
-                        android:textColor="@color/on_surface_variant"
+                        android:textColor="?colorOnSurfaceVariant"
                         android:textSize="17sp"
                         android:gravity="center" />
 
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/add_playlist_hint"
-                        android:textColor="@color/on_surface_variant"
+                        android:textColor="?colorOnSurfaceVariant"
                         android:textSize="13sp"
                         android:gravity="center"
                         android:alpha="0.7" />

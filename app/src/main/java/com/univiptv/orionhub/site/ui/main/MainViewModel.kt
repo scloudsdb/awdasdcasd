@@ -191,6 +191,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteChannel(channel: Channel) {
+        viewModelScope.launch {
+            repository.deleteChannel(channel)
+            _selectedPlaylistId.value?.let { loadCategoryInfo(it) }
+        }
+    }
+
+    fun deleteCategory(playlistId: Long, category: String) {
+        viewModelScope.launch {
+            repository.deleteCategory(playlistId, category)
+            loadCategoryInfo(playlistId)
+        }
+    }
+
     fun clearError() { _error.value = null }
     fun clearToast() { _toastMessage.value = null }
 }

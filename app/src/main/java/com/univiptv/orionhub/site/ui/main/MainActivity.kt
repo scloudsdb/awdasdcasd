@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -38,8 +39,14 @@ class MainActivity : AppCompatActivity() {
         onPlaylistClick = { onPlaylistSelected(it) },
         onMenuClick = { playlist, view -> showPlaylistMenu(playlist, view) }
     )
-    private val categoryAdapter = CategoryAdapter { onCategorySelected(it) }
-    private val channelAdapter = ChannelAdapter { openPlayer(it) }
+    private val categoryAdapter = CategoryAdapter(
+        onClick = { onCategorySelected(it) },
+        onLongClick = { showDeleteCategoryDialog(it) }
+    )
+    private val channelAdapter = ChannelAdapter(
+        onClick = { openPlayer(it) },
+        onLongClick = { showDeleteChannelDialog(it) }
+    )
 
     private enum class ViewMode { PLAYLISTS, CATEGORIES, CHANNELS }
     private var currentMode = ViewMode.PLAYLISTS
@@ -77,6 +84,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
+        val menu = binding.toolbar.menu
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).icon?.setTint(ContextCompat.getColor(this, R.color.header_icon))
+        }
+
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_settings -> {
@@ -84,15 +96,18 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_search -> {
-                    (item.actionView as? SearchView)?.setOnQueryTextListener(
-                        object : SearchView.OnQueryTextListener {
-                            override fun onQueryTextSubmit(query: String?) = false
-                            override fun onQueryTextChange(newText: String?): Boolean {
-                                if (currentMode == ViewMode.CHANNELS) viewModel.search(newText)
-                                return true
+                    (item.actionView as? SearchView)?.let { sv ->
+                        sv.queryHint = getString(R.string.search)
+                        sv.setOnQueryTextListener(
+                            object : SearchView.OnQueryTextListener {
+                                override fun onQueryTextSubmit(query: String?) = false
+                                override fun onQueryTextChange(newText: String?): Boolean {
+                                    if (currentMode == ViewMode.CHANNELS) viewModel.search(newText)
+                                    return true
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                     true
                 }
                 else -> false
@@ -222,6 +237,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.visibility = View.VISIBLE
         binding.toolbar.title = playlist.name
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+        binding.toolbar.setNavigationIconTint(ContextCompat.getColor(this, R.color.header_icon))
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         setupTabs()
     }
@@ -287,6 +303,28 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(R.string.yes) { _, _ ->
                 viewModel.deletePlaylist(playlist)
                 Toast.makeText(this, R.string.playlist_deleted, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.no, null)
+            .show()
+    }
+
+    private fun showDeleteCategoryDialog(info: CategoryInfo) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(R.string.delete_category_confirm)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.deleteCategory(currentPlaylistId, info.name)
+                Toast.makeText(this, R.string.category_deleted, Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton(R.string.no, null)
+            .show()
+    }
+
+    private fun showDeleteChannelDialog(channel: Channel) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(R.string.delete_channel_confirm)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.deleteChannel(channel)
+                Toast.makeText(this, R.string.channel_deleted, Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton(R.string.no, null)
             .show()

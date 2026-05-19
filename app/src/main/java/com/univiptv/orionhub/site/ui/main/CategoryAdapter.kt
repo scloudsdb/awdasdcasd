@@ -11,7 +11,8 @@ import com.univiptv.orionhub.site.R
 import com.univiptv.orionhub.site.data.model.CategoryInfo
 
 class CategoryAdapter(
-    private val onClick: (CategoryInfo) -> Unit
+    private val onClick: (CategoryInfo) -> Unit,
+    private val onLongClick: ((CategoryInfo) -> Unit)? = null
 ) : ListAdapter<CategoryInfo, CategoryAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,6 +37,12 @@ class CategoryAdapter(
             badgeOnline.text = itemView.context.getString(R.string.online_count, info.onlineChannels)
             badgeOffline.text = itemView.context.getString(R.string.offline_count, info.offlineChannels)
             itemView.setOnClickListener { onClick(info) }
+            onLongClick?.let { longCallback ->
+                itemView.setOnLongClickListener {
+                    longCallback(info)
+                    true
+                }
+            }
         }
     }
 
